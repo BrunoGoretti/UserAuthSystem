@@ -2,11 +2,11 @@
 
 namespace UserAuthSystemProj.Models
 {
-    public class User : Controller
+    public class User
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
+        public int Id { get; set; }
+        public string Email { get; set; }
+        public string Name { get; set; }
+        public string PasswordHash { get; set; }
     }
 }

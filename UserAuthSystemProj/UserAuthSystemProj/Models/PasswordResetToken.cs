@@ -2,11 +2,11 @@
 
 namespace UserAuthSystemProj.Models
 {
-    public class PasswordResetToken : Controller
+    public class PasswordResetToken
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
+        public int Id { get; set; }
+        public string Email { get; set; }
+        public string Token { get; set; }
+        public DateTime ExpiryDate { get; set; }
     }
 }
