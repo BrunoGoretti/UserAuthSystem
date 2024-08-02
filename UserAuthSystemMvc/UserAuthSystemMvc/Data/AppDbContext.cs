@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using UserAuthSystemProj.Models;
+using UserAuthSystemMvc.Models;
 
-namespace UserAuthSystemProj.Data
+namespace UserAuthSystemMvc.Data
 {
     public class AppDbContext : DbContext
     {

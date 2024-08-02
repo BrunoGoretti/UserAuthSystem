@@ -1,4 +1,4 @@
-﻿namespace UserAuthSystemProj.Services
+﻿namespace UserAuthSystemMvc.Services
 {
     public class EmailService
     {

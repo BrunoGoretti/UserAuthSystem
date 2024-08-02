@@ -1,6 +1,6 @@
-﻿using UserAuthSystemProj.Data;
-using UserAuthSystemProj.Models;
-using UserAuthSystemProj.Services.Interfaces;
+﻿using UserAuthSystemMvc.Data;
+using UserAuthSystemMvc.Models;
+using UserAuthSystemMvc.Services.Interfaces;
 
 namespace UserAuthSystemProj.Services
 {
@@ -8,7 +8,7 @@ namespace UserAuthSystemProj.Services
     {
         private readonly AppDbContext _dbcontex;
 
-        public AuthService(AppDbContext dbcontex) 
+        public AuthService(AppDbContext dbcontex)
         {
             _dbcontex = dbcontex;
         }

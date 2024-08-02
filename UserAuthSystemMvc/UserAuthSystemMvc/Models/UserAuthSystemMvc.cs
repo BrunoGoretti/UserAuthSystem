@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-namespace UserAuthSystemProj.Models
+﻿namespace UserAuthSystemMvc.Models
 {
     public class PasswordResetToken
     {
