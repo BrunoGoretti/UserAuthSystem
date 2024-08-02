@@ -8,7 +8,7 @@ namespace UserAuthSystemMvc.Data
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
         public DbSet<UserModel> DbUsers { get; set; }
-        public DbSet<PasswordResetToken> DbPasswordResetTokens { get; set; }
+        public DbSet<PasswordResetTokenModel> DbPasswordResetTokens { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using UserAuthSystemMvc.Models;
 using UserAuthSystemMvc.Services.Interfaces;
+using System.Threading.Tasks;
 
 namespace UserAuthSystemMvc.Controllers
 {
@@ -36,18 +37,21 @@ namespace UserAuthSystemMvc.Controllers
             return View();
         }
 
-/*        [HttpPost]
-        public async Task<IActionResult> Login(string email, string password)
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginModel model)
         {
-            var user = await _authService.Authenticate(email, password);
-            if (user != null)
+            if (ModelState.IsValid)
             {
-                // Manage session or authentication here
-                return RedirectToAction("Index", "Home");
+                var user = await _authService.AuthenticateUser(model.Email, model.Password);
+                if (user != null)
+                {
+                    // Add authentication logic here, e.g., set cookies or session
+                    Console.WriteLine("Gji");
+                    return RedirectToAction("Index", "Home");
+                }
+                ModelState.AddModelError("", "Invalid email or password.");
             }
-
-            ModelState.AddModelError("", "Invalid login attempt.");
-            return View();
-        }*/
+            return View(model);
+        }
     }
 }
