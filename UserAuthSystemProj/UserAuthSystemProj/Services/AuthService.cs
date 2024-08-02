@@ -13,39 +13,17 @@ namespace UserAuthSystemProj.Services
             _dbcontex = dbcontex;
         }
 
-        public async Task<UserModel> AddEmail(string userEmail)
+        public async Task<UserModel> AddUser(UserModel user)
         {
-            var newEmail = new UserModel
-            { 
-                Email = userEmail 
-            };
-
-            _dbcontex.Add(newEmail);
-            await _dbcontex.SaveChangesAsync();
-            return newEmail;
-        }
-
-        public async Task<UserModel> AddUsername(string userName)
-        {
-            var newUserEmail = new UserModel
+            var newUser = new UserModel
             {
-                Username = userName
+                Email = user.Email,
+                Username = user.Username,
+                PasswordHash = user.PasswordHash,
             };
-
-            _dbcontex.Add(newUserEmail);
+            _dbcontex.Add(newUser);
             await _dbcontex.SaveChangesAsync();
-            return newUserEmail;
-        }
-
-        public async Task<UserModel> AddPassword (string userPassword)
-        {
-            var newEmail = new UserModel
-            {
-                Email = userPassword
-            };
-            _dbcontex.Add(newEmail);
-            await _dbcontex.SaveChangesAsync();
-            return newEmail;
+            return newUser;
         }
     }
 }

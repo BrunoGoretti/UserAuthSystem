@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Text.RegularExpressions;
 using UserAuthSystemProj.Data;
 using UserAuthSystemProj.Models;
+using UserAuthSystemProj.Services;
 using UserAuthSystemProj.Services.Interfaces;
 
 namespace UserAuthSystemProj.Controllers
@@ -23,21 +25,23 @@ namespace UserAuthSystemProj.Controllers
         [HttpPost("registration")]
         public async Task<ActionResult<UserModel>> Registration(string email, string username, string password )
         {
-            var newRegistration = new UserModel()
+            UserModel newRegistration = new UserModel
             {
                 Email = email,
                 Username = username,
                 PasswordHash = password
             };
+
             _context.DbUsers.Add(newRegistration);
             await _context.SaveChangesAsync();
+
             return Ok(newRegistration);
         }
 
         [HttpPost("login")]
         public async Task<ActionResult<UserModel>> Login(string email, string password)
         {
-            var user = await _context.DbUsers.SingleOrDefaultAsync(u => u.Email == email);
+            UserModel user = await _context.DbUsers.SingleOrDefaultAsync(u => u.Email == email);
 
             if (user == null)
             {
@@ -49,7 +53,6 @@ namespace UserAuthSystemProj.Controllers
                 return Unauthorized("Invalid password");
             }
 
-            // Successful login
             return Ok(user);
         }
 
