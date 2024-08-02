@@ -1,13 +1,33 @@
-﻿<h2>Login</h2>
+﻿@{
+    ViewData["Title"] = "Login";
+}
 
-<form asp-action="Login" method="post">
-    <div class="form-group">
-        <label for="email">Email</label>
-        <input type="email" name="email" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" name="password" class="form-control" />
-    </div>
-    <button type="submit" class="btn btn-primary">Login</button>
-</form>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <header class="header">
+        <h1>Login</h1>
+    </header>
+    <main>
+        <section class="form-container">
+            <form asp-action="Login" method="post">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" name="email" class="form-control" required />
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" class="form-control" required />
+                </div>
+                <button type="submit" class="btn btn-primary">Login</button>
+            </form>
+        </section>
+    </main>
+</body>
+</html>

@@ -1,0 +1,31 @@
+﻿@{
+    ViewData["Title"] = "Home";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <header class="header">
+        <h1>Welcome to UserAuthSystemMvc</h1>
+    </header>
+    <main>
+        <section class="hero-section">
+            <h1>Your Gateway to Secure Authentication</h1>
+            <p>Manage your login and registration seamlessly with our system.</p>
+            <div class="btn-container">
+                <a href="/Auth/Login" class="btn btn-primary">Login</a>
+                <a href="/Auth/Registration" class="btn btn-secondary">Register</a>
+            </div>
+        </section>
+    </main>
+    <footer class="footer">
+        <p>&copy; 2024 UserAuthSystemMvc. All rights reserved.</p>
+    </footer>
+</body>
+</html>
