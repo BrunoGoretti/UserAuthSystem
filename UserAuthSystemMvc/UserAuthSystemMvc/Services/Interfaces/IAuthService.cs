@@ -1,6 +1,6 @@
-﻿using UserAuthSystemProj.Models;
+﻿using UserAuthSystemMvc.Models;
 
-namespace UserAuthSystemProj.Services.Interfaces
+namespace UserAuthSystemMvc.Services.Interfaces
 {
     public interface IAuthService
     {

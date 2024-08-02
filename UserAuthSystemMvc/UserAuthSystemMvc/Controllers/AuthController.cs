@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using UserAuthSystemMvc.Models;
+using UserAuthSystemMvc.Services.Interfaces;
 
 namespace UserAuthSystemMvc.Controllers
 {
