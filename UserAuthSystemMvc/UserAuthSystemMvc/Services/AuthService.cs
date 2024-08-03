@@ -24,7 +24,8 @@ namespace UserAuthSystemMvc.Services
             {
                 Email = user.Email,
                 Username = user.Username,
-                PasswordHash = HashPassword(user.PasswordHash)
+                PasswordHash = HashPassword(user.PasswordHash),
+                HashedId = GenerateHashedId(user.Email) // Generate hashed ID based on the email
             };
 
             _dbContext.Add(newUser);
@@ -41,6 +42,15 @@ namespace UserAuthSystemMvc.Services
             }
         }
 
+        private string GenerateHashedId(string input)
+        {
+            using (var sha256 = SHA256.Create())
+            {
+                var hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(input));
+                return BitConverter.ToString(hashedBytes).Replace("-", "").ToLower();
+            }
+        }
+
         public async Task<UserModel> AuthenticateUser(string email, string password)
         {
             var user = await _dbContext.DbUsers
@@ -48,10 +58,10 @@ namespace UserAuthSystemMvc.Services
 
             if (user == null || user.PasswordHash != HashPassword(password))
             {
-                return null; 
+                return null;
             }
 
-            return user; 
+            return user;
         }
     }
 }

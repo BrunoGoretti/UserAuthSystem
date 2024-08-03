@@ -12,7 +12,7 @@ using UserAuthSystemMvc.Data;
 namespace UserAuthSystemMvc.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240802191602_igrationName")]
+    [Migration("20240803193818_igrationName")]
     partial class igrationName
     {
         /// <inheritdoc />
@@ -25,7 +25,7 @@ namespace UserAuthSystemMvc.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("UserAuthSystemMvc.Models.PasswordResetToken", b =>
+            modelBuilder.Entity("UserAuthSystemMvc.Models.PasswordResetTokenModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -59,6 +59,9 @@ namespace UserAuthSystemMvc.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("HashedId")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PasswordHash")

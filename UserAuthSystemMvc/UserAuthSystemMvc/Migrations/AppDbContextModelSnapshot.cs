@@ -22,7 +22,7 @@ namespace UserAuthSystemMvc.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("UserAuthSystemMvc.Models.PasswordResetToken", b =>
+            modelBuilder.Entity("UserAuthSystemMvc.Models.PasswordResetTokenModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -56,6 +56,9 @@ namespace UserAuthSystemMvc.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("HashedId")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PasswordHash")

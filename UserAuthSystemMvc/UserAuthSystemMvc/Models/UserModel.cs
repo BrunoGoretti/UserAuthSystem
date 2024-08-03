@@ -5,7 +5,8 @@ namespace UserAuthSystemMvc.Models
 {
     public class UserModel
     {
-        public int Id { get; set; }
+        public int Id { get; set; } 
+        public string? HashedId { get; set; } 
 
         [Required]
         [EmailAddress]

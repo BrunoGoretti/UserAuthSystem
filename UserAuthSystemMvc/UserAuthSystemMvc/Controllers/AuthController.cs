@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using UserAuthSystemMvc.Models;
 using UserAuthSystemMvc.Services.Interfaces;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
@@ -72,7 +71,7 @@ namespace UserAuthSystemMvc.Controllers
                         new Claim(ClaimTypes.Name, user.Username),
                         new Claim(ClaimTypes.Email, user.Email)
                     };
-                    Console.WriteLine("kaaaaaL");
+                    Console.WriteLine("Log succses");
 
                     // Create claims identity
                     var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);

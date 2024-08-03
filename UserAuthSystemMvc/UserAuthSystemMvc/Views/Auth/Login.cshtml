@@ -19,6 +19,12 @@
     </header>
     <main>
         <section class="form-container">
+            @if (ViewData["Message"] != null)
+            {
+                <div class="alert alert-warning">
+                    @ViewData["Message"]
+                </div>
+            }
             <form asp-action="Login" method="post">
                 <div class="form-group">
                     <label for="email">Email</label>
