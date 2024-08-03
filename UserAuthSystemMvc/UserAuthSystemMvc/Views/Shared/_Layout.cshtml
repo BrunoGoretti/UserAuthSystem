@@ -7,9 +7,19 @@
 <body>
     <header>
         <nav>
-@*             <a href="/">Home</a>
-            <a href="/Auth/Login">Login</a>
-            <a href="/Auth/Registration">Register</a> *@
+            <a href="/">Home</a>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <span>Hi, @User.Identity.Name</span>
+                <form asp-controller="Auth" asp-action="Logout" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-logout">Logout</button>
+                </form>
+            }
+            else
+            {
+                <a href="/Auth/Login">Login</a>
+                <a href="/Auth/Registration">Register</a>
+            }
         </nav>
     </header>
     <div class="container">

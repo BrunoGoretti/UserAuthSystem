@@ -12,16 +12,26 @@
 </head>
 <body>
     <header class="header">
-        <h1>Welcome to UserAuthSystemMvc</h1>
+        <h1>@if (User.Identity.IsAuthenticated)
+            {
+                <text>Hi, @User.Identity.Name</text>
+            }
+            else
+            {
+                <text>Welcome to UserAuthSystemMvc</text>
+            }</h1>
     </header>
     <main>
         <section class="hero-section">
             <h1>Your Gateway to Secure Authentication</h1>
             <p>Manage your login and registration seamlessly with our system.</p>
-            <div class="btn-container">
-                <a href="/Auth/Login" class="btn btn-primary">Login</a>
-                <a href="/Auth/Registration" class="btn btn-secondary">Register</a>
-            </div>
+            @if (!User.Identity.IsAuthenticated)
+            {
+                <div class="btn-container">
+                    <a href="/Auth/Login" class="btn btn-primary">Login</a>
+                    <a href="/Auth/Registration" class="btn btn-secondary">Register</a>
+                </div>
+            }
         </section>
     </main>
     <footer class="footer">
