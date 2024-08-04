@@ -10,10 +10,12 @@ namespace UserAuthSystemMvc.Controllers
     public class AuthController : Controller
     {
         private readonly IAuthService _authService;
+        private readonly IConfiguration _configuration;
 
-        public AuthController(IAuthService authService)
+        public AuthController(IAuthService authService, IConfiguration configuration)
         {
             _authService = authService;
+            _configuration = configuration;
         }
 
         [HttpGet]
@@ -28,7 +30,7 @@ namespace UserAuthSystemMvc.Controllers
             if (ModelState.IsValid)
             {
                 var user = await _authService.AddUser(model);
-
+                var cookieExpirationInSeconds = _configuration.GetValue<int>("Authentication:CookieExpirationInSeconds");
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, user.Username),
@@ -39,8 +41,7 @@ namespace UserAuthSystemMvc.Controllers
 
                 var authProperties = new AuthenticationProperties
                 {
-                    IsPersistent = true,
-                    ExpiresUtc = DateTimeOffset.UtcNow.AddSeconds(60)
+                    ExpiresUtc = DateTimeOffset.UtcNow.AddSeconds(cookieExpirationInSeconds)
                 };
 
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
@@ -62,28 +63,23 @@ namespace UserAuthSystemMvc.Controllers
             if (ModelState.IsValid)
             {
                 var user = await _authService.AuthenticateUser(model.Email, model.Password);
-
+                var cookieExpirationInSeconds = _configuration.GetValue<int>("Authentication:CookieExpirationInSeconds");
                 if (user != null)
                 {
-                    // Create claims for the user
                     var claims = new List<Claim>
                     {
                         new Claim(ClaimTypes.Name, user.Username),
                         new Claim(ClaimTypes.Email, user.Email)
                     };
-                    Console.WriteLine("Log succses");
 
-                    // Create claims identity
                     var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
-                    // Create auth properties
                     var authProperties = new AuthenticationProperties
                     {
-                        IsPersistent = true,
-                        ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(60)
+
+                        ExpiresUtc = DateTimeOffset.UtcNow.AddSeconds(cookieExpirationInSeconds)
                     };
 
-                    // Sign in the user
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
                     return RedirectToAction("Index", "Home");
                 }

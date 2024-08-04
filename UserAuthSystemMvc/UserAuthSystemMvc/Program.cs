@@ -17,7 +17,9 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     .AddCookie(options =>
     {
         options.LoginPath = "/Auth/Login";
-        options.ExpireTimeSpan = TimeSpan.FromSeconds(3);
+        // Read cookie expiration time from configuration
+        var cookieExpirationInSeconds = builder.Configuration.GetValue<int>("Authentication:CookieExpirationInSeconds");
+        options.ExpireTimeSpan = TimeSpan.FromSeconds(cookieExpirationInSeconds);
     });
 
 builder.Services.AddScoped<IAuthService, AuthService>();
