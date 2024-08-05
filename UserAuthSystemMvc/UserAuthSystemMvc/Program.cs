@@ -17,9 +17,10 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     .AddCookie(options =>
     {
         options.LoginPath = "/Auth/Login";
-        // Read cookie expiration time from configuration
+        options.AccessDeniedPath = "/Auth/Login"; // Redirect to login page on access denied
         var cookieExpirationInSeconds = builder.Configuration.GetValue<int>("Authentication:CookieExpirationInSeconds");
         options.ExpireTimeSpan = TimeSpan.FromSeconds(cookieExpirationInSeconds);
+        options.SlidingExpiration = true; // Optional: Extend the cookie lifetime on each request
     });
 
 builder.Services.AddScoped<IAuthService, AuthService>();

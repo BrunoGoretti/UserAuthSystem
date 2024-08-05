@@ -94,5 +94,11 @@ namespace UserAuthSystemMvc.Controllers
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Index", "Home");
         }
+
+        [HttpGet]
+        public IActionResult IsAuthenticated()
+        {
+            return Json(User.Identity.IsAuthenticated);
+        }
     }
 }

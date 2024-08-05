@@ -12,13 +12,30 @@ html {
 }
 
 body {
-    margin-bottom: 60px;
+    background-image: url(../css/Images/plane.jpg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin: 0;
     font-family: Arial, sans-serif;
     color: #333;
+    position: relative;
 }
 
+    body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255, 255, 255, 0.6);
+        z-index: -1;
+        pointer-events: none;
+    }
+
 .header {
-    background-color: #64b3f1;
+    background-color: #1e50ef;
     color: #fff;
     padding: 1rem;
     text-align: center;
@@ -29,9 +46,9 @@ body {
     background-color: #f1f1f1;
     text-align: center;
     padding: 1rem;
-    position: absolute;
+    position: sticky;
     bottom: 0;
-    width: 100%;
+    left: 0;
 }
 
 .form-container {
@@ -84,11 +101,28 @@ body {
     }
 
 .btn-home-button {
-    background-color: #64b3f1;
+    background-color: #9dbb1f;
     position: absolute;
     left: 10px;
-    top: 50%;
+    top: 123%;
     transform: translateY(-50%);
+}
+
+.btn-logout {
+    color: white;
+    background-color: #ef641e;
+    position: absolute;
+    right: 20px;
+    top: 23%;
+    transform: translateY(-50%);
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
 }
 
 .text-danger {
@@ -101,11 +135,14 @@ body {
     align-items: center;
     justify-content: center;
     height: 400px;
+    width: 50%;
     color: #000;
     text-align: center;
     padding: 2rem;
     border-radius: 8px;
     margin: 2rem auto;
+    background-color: #f9f9f9;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
     .hero-section h1 {
