@@ -25,7 +25,7 @@ namespace UserAuthSystemMvc.Services
                 Email = user.Email,
                 Username = user.Username,
                 PasswordHash = HashPassword(user.PasswordHash),
-                HashedId = GenerateHashedId(user.Email) // Generate hashed ID based on the email
+                HashedId = GenerateHashedId(user.Email)
             };
 
             _dbContext.Add(newUser);

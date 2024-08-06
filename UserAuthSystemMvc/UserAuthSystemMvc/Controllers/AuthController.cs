@@ -100,5 +100,12 @@ namespace UserAuthSystemMvc.Controllers
         {
             return Json(User.Identity.IsAuthenticated);
         }
+
+        public IActionResult PasswordReset()
+        {
+            return View();
+        }
+
+
     }
 }
