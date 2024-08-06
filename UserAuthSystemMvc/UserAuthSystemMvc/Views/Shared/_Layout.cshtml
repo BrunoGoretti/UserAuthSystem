@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewData["Title"] - UserAuthSystemMvc</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+        @if (User.Identity.IsAuthenticated)
+        {
+            <text>
+                    setInterval(function () {
+                        $.get("/Auth/IsAuthenticated", function (data) {
+                            if (!data) {
+                                window.location.reload();
+                            }
+                        });
+                    }, 10000); 
+            </text>
+        }
+                });
+    </script>
+</head>
+<body>
+    <header>
+        <nav>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <form asp-controller="Auth" asp-action="Logout" method="post" style="display:inline;">
+                    <button type="submit" class="btn-logout">Logout</button>
+                </form>
+            }
+        </nav>
+    </header>
+    <div class="container">
+        @RenderBody()
+    </div>
+</body>
+</html>
