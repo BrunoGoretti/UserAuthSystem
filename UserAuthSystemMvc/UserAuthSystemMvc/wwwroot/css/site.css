@@ -125,6 +125,20 @@ body {
     display: inline-block;
 }
 
+.forgot-password-link {
+    position: absolute;
+    bottom: 2%;
+}
+
+.forgot-password-link a {
+text-decoration: none;
+}
+
+.forgot-password-link a:hover {
+    text-decoration: underline; 
+}
+  
+
 .text-danger {
     color: #dc3545;
 }
