@@ -4,10 +4,11 @@ namespace UserAuthSystemMvc.Models
 {
     public class CreateNewPasswordModel
     {
+        [Required]
         public string Token { get; set; }
 
         [Required]
-        [DataType(DataType.Password)]
+        [StringLength(100, MinimumLength = 6)]
         public string NewPassword { get; set; }
 
         [Required]

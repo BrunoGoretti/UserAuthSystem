@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
 using UserAuthSystemMvc.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace UserAuthSystemMvc.Controllers
 {
@@ -141,7 +142,6 @@ namespace UserAuthSystemMvc.Controllers
             {
                 return BadRequest("Token is missing");
             }
-            // You can also add validation for the token here
             return View(new CreateNewPasswordModel { Token = token });
         }
 
@@ -151,17 +151,29 @@ namespace UserAuthSystemMvc.Controllers
             if (ModelState.IsValid)
             {
                 var resetToken = await _authService.GetResetToken(model.Token);
+
                 if (resetToken != null)
                 {
-                    // Proceed with resetting the password
-                    // (Implement the logic to reset the password here)
-                    // e.g., _authService.CreateNewPassword(resetToken.Email, model.NewPassword);
-                    ViewData["SuccessMessage"] = "Password has been reset.";
-                    return RedirectToAction("Login");
+                    var isUpdated = await _authService.UpdatePassword(resetToken.Email, model.NewPassword);
+                    if (isUpdated)
+                    {
+                        ViewData["SuccessMessage"] = "Password has been reset.";
+                        return RedirectToAction("PasswordChangeCompletedSuccessfully");
+                    }
+                    ViewData["ErrorMessage"] = "Failed to update the password.";
                 }
-                ViewData["ErrorMessage"] = "Invalid or expired token.";
+                else
+                {
+                    ViewData["ErrorMessage"] = "Invalid or expired token.";
+                }
             }
             return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult PasswordChangeCompletedSuccessfully()
+        {
+            return View();
         }
     }
 }

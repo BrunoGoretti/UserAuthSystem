@@ -9,5 +9,6 @@ namespace UserAuthSystemMvc.Services.Interfaces
         Task<UserModel> AuthenticateUser(string email, string password);
         Task<string> CreatePasswordResetToken(string email);
         Task<PasswordResetTokenModel> GetResetToken(string token);
+        Task<bool> UpdatePassword(string email, string newPassword);
     }
 }
