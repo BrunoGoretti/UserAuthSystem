@@ -1,4 +1,5 @@
-﻿using UserAuthSystemMvc.Models;
+﻿using System.Threading.Tasks;
+using UserAuthSystemMvc.Models;
 
 namespace UserAuthSystemMvc.Services.Interfaces
 {
@@ -6,6 +7,8 @@ namespace UserAuthSystemMvc.Services.Interfaces
     {
         Task<UserModel> AddUser(UserModel user);
         Task<UserModel> AuthenticateUser(string email, string password);
-
+        Task<string> CreatePasswordResetToken(string email);
+        Task<PasswordResetTokenModel> GetResetToken(string token);
+        Task<bool> UpdatePassword(string email, string newPassword);
     }
 }

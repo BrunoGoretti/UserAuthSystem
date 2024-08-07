@@ -4,6 +4,8 @@ using UserAuthSystemMvc.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
+using UserAuthSystemMvc.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace UserAuthSystemMvc.Controllers
 {
@@ -11,11 +13,18 @@ namespace UserAuthSystemMvc.Controllers
     {
         private readonly IAuthService _authService;
         private readonly IConfiguration _configuration;
+        private readonly IEmailService _emailService;
 
-        public AuthController(IAuthService authService, IConfiguration configuration)
+        public AuthController(IAuthService authService, IConfiguration configuration, IEmailService emailService)
         {
             _authService = authService;
             _configuration = configuration;
+            _emailService = emailService;
+        }
+
+        public IActionResult Index()
+        {
+            return View();
         }
 
         [HttpGet]
@@ -46,7 +55,7 @@ namespace UserAuthSystemMvc.Controllers
 
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
 
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index");
             }
             return View(model);
         }
@@ -81,7 +90,7 @@ namespace UserAuthSystemMvc.Controllers
                     };
 
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index");
                 }
                 ModelState.AddModelError("", "Invalid email or password.");
             }
@@ -92,13 +101,79 @@ namespace UserAuthSystemMvc.Controllers
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index");
         }
 
         [HttpGet]
         public IActionResult IsAuthenticated()
         {
             return Json(User.Identity.IsAuthenticated);
+        }
+
+        public IActionResult PasswordReset()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> PasswordReset(PasswordResetModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var token = await _authService.CreatePasswordResetToken(model.Email);
+                if (token != null)
+                {
+                    await _emailService.SendPasswordResetEmailAsync(model.Email, token);
+                    ViewData["SuccessMessage"] = "Password reset email sent.";
+                }
+                else
+                {
+                    ViewData["ErrorMessage"] = "An error occurred.";
+                }
+                return View(model);
+            }
+            return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult CreateNewPassword(string token)
+        {
+            if (string.IsNullOrEmpty(token))
+            {
+                return BadRequest("Token is missing");
+            }
+            return View(new CreateNewPasswordModel { Token = token });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateNewPassword(CreateNewPasswordModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var resetToken = await _authService.GetResetToken(model.Token);
+
+                if (resetToken != null)
+                {
+                    var isUpdated = await _authService.UpdatePassword(resetToken.Email, model.NewPassword);
+                    if (isUpdated)
+                    {
+                        ViewData["SuccessMessage"] = "Password has been reset.";
+                        return RedirectToAction("PasswordChangeCompletedSuccessfully");
+                    }
+                    ViewData["ErrorMessage"] = "Failed to update the password.";
+                }
+                else
+                {
+                    ViewData["ErrorMessage"] = "Invalid or expired token.";
+                }
+            }
+            return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult PasswordChangeCompletedSuccessfully()
+        {
+            return View();
         }
     }
 }

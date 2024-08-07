@@ -24,8 +24,8 @@ namespace UserAuthSystemMvc.Services
             {
                 Email = user.Email,
                 Username = user.Username,
-                PasswordHash = HashPassword(user.PasswordHash),
-                HashedId = GenerateHashedId(user.Email) // Generate hashed ID based on the email
+                PasswordHash = GenerateHashed(user.PasswordHash),
+                HashedId = GenerateHashed(user.Email)
             };
 
             _dbContext.Add(newUser);
@@ -33,16 +33,7 @@ namespace UserAuthSystemMvc.Services
             return newUser;
         }
 
-        private string HashPassword(string password)
-        {
-            using (var sha256 = SHA256.Create())
-            {
-                var hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
-                return BitConverter.ToString(hashedBytes).Replace("-", "").ToLower();
-            }
-        }
-
-        private string GenerateHashedId(string input)
+        private string GenerateHashed(string input)
         {
             using (var sha256 = SHA256.Create())
             {
@@ -56,12 +47,58 @@ namespace UserAuthSystemMvc.Services
             var user = await _dbContext.DbUsers
                 .FirstOrDefaultAsync(u => u.Email == email);
 
-            if (user == null || user.PasswordHash != HashPassword(password))
+            if (user == null || user.PasswordHash != GenerateHashed(password))
             {
                 return null;
             }
 
             return user;
+        }
+
+        public async Task<string> CreatePasswordResetToken(string email)
+        {
+            // Remove any existing tokens for the email
+            var existingTokens = _dbContext.DbPasswordResetTokens.Where(t => t.Email == email);
+            _dbContext.DbPasswordResetTokens.RemoveRange(existingTokens);
+
+            // Generate new token and set expiry date
+            var token = GenerateHashed(Guid.NewGuid().ToString());
+            var expiryDate = DateTime.UtcNow.AddSeconds(60);
+
+            // Create new token model
+            var resetToken = new PasswordResetTokenModel
+            {
+                Email = email,
+                Token = token,
+                ExpiryDate = expiryDate
+            };
+
+            // Add new token to the database
+            _dbContext.DbPasswordResetTokens.Add(resetToken);
+            await _dbContext.SaveChangesAsync();
+
+            return token;
+        }
+
+        public async Task<PasswordResetTokenModel> GetResetToken(string token)
+        {
+            return await _dbContext.DbPasswordResetTokens
+                .FirstOrDefaultAsync(t => t.Token == token && t.ExpiryDate > DateTime.UtcNow);
+        }
+
+        public async Task<bool> UpdatePassword(string email, string newPassword)
+        {
+            var user = await _dbContext.DbUsers.FirstOrDefaultAsync(u => u.Email == email);
+
+            if (user == null)
+            {
+                return false;
+            }
+
+            user.PasswordHash = GenerateHashed(newPassword);
+            _dbContext.Update(user);
+            await _dbContext.SaveChangesAsync();
+            return true;
         }
     }
 }
