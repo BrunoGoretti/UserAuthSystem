@@ -121,10 +121,11 @@ namespace UserAuthSystemMvc.Controllers
             {
                 string toEmail = model.Email;
                 string subject = "Password Reset";
-                string message = "Hi"; // Message to be sent
+                string message = "Hi";
 
                 await _emailService.SendEmailAsync(toEmail, subject, message);
-                return Content("Password reset email sent.");
+                ViewData["SuccessMessage"] = "Password reset email sent";
+                return View(model); 
             }
             return View(model);
         }
