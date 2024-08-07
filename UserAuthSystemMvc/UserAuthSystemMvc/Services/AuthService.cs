@@ -54,5 +54,31 @@ namespace UserAuthSystemMvc.Services
 
             return user;
         }
+
+        public async Task<string> CreatePasswordResetToken(string email)
+        {
+            var token = GenerateHashed(Guid.NewGuid().ToString());
+            var expiryDate = DateTime.UtcNow.AddHours(1); // Token expires in 1 hour
+
+            var resetToken = new PasswordResetTokenModel
+            {
+                Email = email,
+                Token = token,
+                ExpiryDate = expiryDate
+            };
+
+            _dbContext.DbPasswordResetTokens.Add(resetToken);
+            await _dbContext.SaveChangesAsync();
+
+            return token;
+        }
+
+        public async Task<PasswordResetTokenModel> GetResetToken(string token)
+        {
+            return await _dbContext.DbPasswordResetTokens
+                .FirstOrDefaultAsync(t => t.Token == token && t.ExpiryDate > DateTime.UtcNow);
+        }
+
+
     }
 }

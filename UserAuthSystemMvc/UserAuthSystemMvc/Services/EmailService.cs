@@ -36,5 +36,14 @@ namespace UserAuthSystemMvc.Services
                 await client.DisconnectAsync(true);
             }
         }
+
+        public async Task SendPasswordResetEmailAsync(string toEmail, string token)
+        {
+            var resetLink = $"{_configuration["AppSettings:BaseUrl"]}https://localhost:7030/Auth/CreateNewPassword?token={token}";
+            var subject = "Password Reset Request";
+            var message = $"Please reset your password by clicking the following link: {resetLink}";
+
+            await SendEmailAsync(toEmail, subject, message);
+        }
     }
 }

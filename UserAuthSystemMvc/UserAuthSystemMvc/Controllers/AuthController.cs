@@ -119,13 +119,47 @@ namespace UserAuthSystemMvc.Controllers
         {
             if (ModelState.IsValid)
             {
-                string toEmail = model.Email;
-                string subject = "Password Reset";
-                string message = "Hi";
+                var token = await _authService.CreatePasswordResetToken(model.Email);
+                if (token != null)
+                {
+                    await _emailService.SendPasswordResetEmailAsync(model.Email, token);
+                    ViewData["SuccessMessage"] = "Password reset email sent.";
+                }
+                else
+                {
+                    ViewData["ErrorMessage"] = "An error occurred.";
+                }
+                return View(model);
+            }
+            return View(model);
+        }
 
-                await _emailService.SendEmailAsync(toEmail, subject, message);
-                ViewData["SuccessMessage"] = "Password reset email sent";
-                return View(model); 
+        [HttpGet]
+        public IActionResult CreateNewPassword(string token)
+        {
+            if (string.IsNullOrEmpty(token))
+            {
+                return BadRequest("Token is missing");
+            }
+            // You can also add validation for the token here
+            return View(new CreateNewPasswordModel { Token = token });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateNewPassword(CreateNewPasswordModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var resetToken = await _authService.GetResetToken(model.Token);
+                if (resetToken != null)
+                {
+                    // Proceed with resetting the password
+                    // (Implement the logic to reset the password here)
+                    // e.g., _authService.CreateNewPassword(resetToken.Email, model.NewPassword);
+                    ViewData["SuccessMessage"] = "Password has been reset.";
+                    return RedirectToAction("Login");
+                }
+                ViewData["ErrorMessage"] = "Invalid or expired token.";
             }
             return View(model);
         }

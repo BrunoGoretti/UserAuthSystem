@@ -12,7 +12,7 @@ using UserAuthSystemMvc.Data;
 namespace UserAuthSystemMvc.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240807122446_igrationName")]
+    [Migration("20240807170638_igrationName")]
     partial class igrationName
     {
         /// <inheritdoc />
