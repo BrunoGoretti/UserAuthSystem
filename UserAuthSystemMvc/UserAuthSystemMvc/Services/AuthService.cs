@@ -1,8 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 using UserAuthSystemMvc.Data;
 using UserAuthSystemMvc.Models;
 using UserAuthSystemMvc.Services.Interfaces;
@@ -57,15 +55,12 @@ namespace UserAuthSystemMvc.Services
 
         public async Task<string> CreatePasswordResetToken(string email)
         {
-            // Remove any existing tokens for the email
             var existingTokens = _dbContext.DbPasswordResetTokens.Where(t => t.Email == email);
             _dbContext.DbPasswordResetTokens.RemoveRange(existingTokens);
 
-            // Generate new token and set expiry date
             var token = GenerateHashed(Guid.NewGuid().ToString());
             var expiryDate = DateTime.UtcNow.AddSeconds(60);
 
-            // Create new token model
             var resetToken = new PasswordResetTokenModel
             {
                 Email = email,
@@ -73,7 +68,6 @@ namespace UserAuthSystemMvc.Services
                 ExpiryDate = expiryDate
             };
 
-            // Add new token to the database
             _dbContext.DbPasswordResetTokens.Add(resetToken);
             await _dbContext.SaveChangesAsync();
 
