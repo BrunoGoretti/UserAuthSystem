@@ -1,7 +1,5 @@
 ﻿using MailKit.Net.Smtp;
 using MimeKit;
-using Microsoft.Extensions.Configuration;
-using System.Threading.Tasks;
 using UserAuthSystemMvc.Services.Interfaces;
 
 namespace UserAuthSystemMvc.Services

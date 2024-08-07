@@ -4,8 +4,6 @@ using UserAuthSystemMvc.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
-using UserAuthSystemMvc.Services;
-using Microsoft.EntityFrameworkCore;
 
 namespace UserAuthSystemMvc.Controllers
 {
