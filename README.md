@@ -14,5 +14,5 @@ After successful registration, a confirmation email with the message “Welcome,
 ## How to launch
 
 Clone repository in Visual Studio.
-Add your google email address and app specific password from your google to Email Password in appsettings.json
+Add your google email address and app specific password from your google (XXXX XXXX XXXX XXXX) to emailPassword in appsettings.json
 
