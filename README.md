@@ -15,6 +15,10 @@ After successful registration, a confirmation email with the message “Welcome,
 
 Clone repository in Visual Studio.
 
+Put your server name in DefaultConnection
+
+![asdsdaasd](https://github.com/user-attachments/assets/7f002da3-2ded-47cf-999b-382bfdae65a5)
+
 Add your google email address and app specific password from your google (XXXX XXXX XXXX XXXX) to emailPassword in appsettings.json
 
 ![sadads](https://github.com/user-attachments/assets/ab514f3f-8ca1-421a-9cd1-e8b6c5681197)
