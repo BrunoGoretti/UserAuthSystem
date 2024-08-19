@@ -20,3 +20,9 @@ Add your google email address and app specific password from your google (XXXX X
 ![sadads](https://github.com/user-attachments/assets/ab514f3f-8ca1-421a-9cd1-e8b6c5681197)
 
 Create migrations for SQL.
+
+![sadaewrds](https://github.com/user-attachments/assets/91c6723b-2ba0-4811-8667-ac19ef895160)
+
+Update migrations
+
+![sadae32wrds](https://github.com/user-attachments/assets/ccc8d4e0-4e64-40db-b637-12a278052ebf)
