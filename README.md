@@ -31,4 +31,6 @@ Update migrations
 
 ![sadae32wrds](https://github.com/user-attachments/assets/ccc8d4e0-4e64-40db-b637-12a278052ebf)
 
+Now you can launch and use!:)
+
 Program written in .NET 8.0 version
