@@ -33,4 +33,5 @@ Update migrations
 
 Now you can launch and use!:)
 
+|-------------------------------------------------------------------------------------------|
 Program written in .NET 8.0 version
