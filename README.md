@@ -33,5 +33,9 @@ Update migrations
 
 Now you can launch and use!:)
 
+![Untitled-4](https://github.com/user-attachments/assets/d671f9b6-bdf3-4194-b8e5-cc5257b566d0)
+![Untitled-5](https://github.com/user-attachments/assets/9a2c60d1-0720-4d53-83bf-762ca71a4df5)
+![Untitled-6](https://github.com/user-attachments/assets/e6bae72c-1791-4072-ac3d-e1d04f1215eb)
+
 
 Program written in .NET 8.0 version
